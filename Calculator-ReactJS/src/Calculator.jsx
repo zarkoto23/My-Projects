@@ -30,6 +30,7 @@ export default function Calculator() {
     [currentValue, previousValue, operator, justCalculated]
   );
 
+  
  
 
   const handleEquals = useCallback(() => {
