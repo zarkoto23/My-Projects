@@ -1,0 +1,78 @@
+.calculator {
+  width: 300px;
+  margin: 50px auto;
+  background: #2c2c2c;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Дисплей */
+.display {
+  background: #1e1e1e;
+  color: #fff;
+  font-size: 32px;
+  padding: 15px;
+  text-align: right;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: inset 0 -2px 5px rgba(0,0,0,0.6);
+  min-height: 60px;
+  word-wrap: break-word;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 12px;
+}
+
+.buttons button {
+  background: #444;
+  color: #fff;
+  font-size: 22px;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px #222;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+
+.buttons button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px #222;
+}
+
+button.clear {
+  background: #e74c3c;
+     grid-column: 1 / span 2;
+    grid-row: 1;
+}
+
+button.clear:active {
+  background: #c0392b;
+ 
+}
+
+button.operator {
+  background: #f39c12;
+}
+
+button.operator:active {
+  background: #e67e22;
+}
+
+button.equals {
+  background: #27ae60;
+  grid-column: 2 / span 3;
+  grid-row: 5;   
+}
+
+
+button.equals:active {
+  background: #1e8449;
+}
