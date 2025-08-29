@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./Calculator.css";
 
 export default function Calculator() {
@@ -8,37 +8,43 @@ export default function Calculator() {
   const [operator, setOperator] = useState(null);
   const [justCalculated, setJustCalculated] = useState(false);
 
-  function handleNumber(number) {
-    if (number === "." && currentValue.includes(".")) {
-      return;
-    }
+  const handleNumber = useCallback(
+    (number) => {
+      if (number === "." && currentValue.includes(".")) {
+        return;
+      }
 
-    if (justCalculated) {
-      setDisplay(number);
-      setCurrentValue(number);
+      if (justCalculated) {
+        setDisplay(number);
+        setCurrentValue(number);
+        setJustCalculated(false);
+      } else {
+        const newValue = currentValue + number;
+
+        setCurrentValue(newValue);
+        setDisplay(
+          operator ? previousValue + " " + operator + " " + newValue : newValue
+        );
+      }
+    },
+    [currentValue, previousValue, operator, justCalculated]
+  );
+
+  const handleOperator = useCallback(
+    (op) => {
+      if (!currentValue) return;
+      const value = currentValue;
+      const newDisplay = currentValue + " " + op;
+      setPreviousValue(value);
+      setCurrentValue("");
+      setDisplay(newDisplay);
+      setOperator(op);
       setJustCalculated(false);
-    } else {
-      const newValue = currentValue + number;
+    },
+    [currentValue]
+  );
 
-      setCurrentValue(newValue);
-      setDisplay((prev) =>
-        operator ? previousValue + " " + operator + " " + newValue : newValue
-      );
-    }
-  }
-
-  function handleOperator(op) {
-    if (!currentValue) return;
-    const value = currentValue;
-    const newDisplay = currentValue + " " + op;
-    setPreviousValue(value);
-    setCurrentValue("");
-    setDisplay(newDisplay);
-    setOperator(op);
-    setJustCalculated(false);
-  }
-
-  function handleEquals() {
+  const handleEquals = useCallback(() => {
     if (!currentValue || !previousValue || !operator) return;
 
     const curr = Number(currentValue);
@@ -62,53 +68,139 @@ export default function Calculator() {
       default:
         return;
     }
-    setDisplay(result.toString())
+    setDisplay(result.toString());
     setCurrentValue(result.toString());
     setPreviousValue("");
     setOperator(null);
     setJustCalculated(true);
-  }
+  }, [currentValue, previousValue, operator]);
 
-  function handleClear(){
-    setDisplay('')
-    setCurrentValue('')
-    setOperator(null)
-    setPreviousValue('')
-    setJustCalculated(false)
+  const handleClear = useCallback(() => {
+    setDisplay("");
+    setCurrentValue("");
+    setOperator(null);
+    setPreviousValue("");
+    setJustCalculated(false);
+  }, []);
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      const key = e.key;
+
+      if (key >= "0" && key <= "9") {
+        handleNumber(key);
+        pressButton(key);
+      } else if (key === ".") {
+        handleNumber(".");
+        pressButton(".");
+      } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+        handleOperator(key);
+        pressButton(key);
+      } else if (key === "Enter" || key === "=") {
+        handleEquals();
+        pressButton("=");
+      } else if (key === "Backspace" || key.toLowerCase() === "c") {
+        handleClear();
+        pressButton("c");
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [
+    currentValue,
+    previousValue,
+    operator,
+    justCalculated,
+    handleNumber,
+    handleOperator,
+    handleEquals,
+    handleClear,
+  ]);
+
+  function pressButton(key) {
+    document
+      .querySelectorAll(".button-active")
+      .forEach((btn) => btn.classList.remove("button-active"));
+
+    const btn = document.querySelector(`button[data-key="${key}"]`);
+    if (!btn) return;
+
+    btn.classList.add("button-active");
+    setTimeout(() => btn.classList.remove("button-active"), 100);
   }
 
   return (
     <div className="calculator">
       <div className="display">{display || "0"}</div>
       <div className="buttons">
-        <button className="clear" onClick={handleClear}>C</button>
-        <button onClick={() => handleNumber("9")}>9</button>
-        <button onClick={() => handleNumber("8")}>8</button>
-        <button className="operator" onClick={() => handleOperator("/")}>
+        <button data-key="c" className="clear" onClick={handleClear}>
+          &larr;
+        </button>
+        <button data-key="9" onClick={() => handleNumber("9")}>
+          9
+        </button>
+        <button data-key="8" onClick={() => handleNumber("8")}>
+          8
+        </button>
+        <button
+          data-key="/"
+          className="operator"
+          onClick={() => handleOperator("/")}
+        >
           /
         </button>
-        <button onClick={() => handleNumber("7")}>7</button>
+        <button data-key="7" onClick={() => handleNumber("7")}>
+          7
+        </button>
 
-        <button onClick={() => handleNumber("6")}>6</button>
-        <button onClick={() => handleNumber("5")}>5</button>
-        <button className="operator" onClick={() => handleOperator("*")}>
+        <button data-key="6" onClick={() => handleNumber("6")}>
+          6
+        </button>
+        <button data-key="5" onClick={() => handleNumber("5")}>
+          5
+        </button>
+        <button
+          data-key="*"
+          className="operator"
+          onClick={() => handleOperator("*")}
+        >
           *
         </button>
-        <button onClick={() => handleNumber("4")}>4</button>
-
-        <button onClick={() => handleNumber("3")}>3</button>
-        <button onClick={() => handleNumber("2")}>2</button>
-        <button className="operator" onClick={() => handleOperator("-")}>
+        <button data-key="4" onClick={() => handleNumber("4")}>
+          4
+        </button>
+        <button data-key="3" onClick={() => handleNumber("3")}>
+          3
+        </button>
+        <button data-key="2" onClick={() => handleNumber("2")}>
+          2
+        </button>
+        <button
+          data-key="-"
+          className="operator"
+          onClick={() => handleOperator("-")}
+        >
           -
         </button>
-        <button onClick={() => handleNumber("1")}>1</button>
-        <button onClick={() => handleNumber("0")}>0</button>
+        <button data-key="1" onClick={() => handleNumber("1")}>
+          1
+        </button>
+        <button data-key="0" onClick={() => handleNumber("0")}>
+          0
+        </button>
 
-        <button onClick={() => handleNumber(".")}>.</button>
-        <button className="operator" onClick={() => handleOperator("+")}>
+        <button data-key="." onClick={() => handleNumber(".")}>
+          .
+        </button>
+        <button
+          data-key="+"
+          className="operator"
+          onClick={() => handleOperator("+")}
+        >
           +
         </button>
-        <button className="equals" onClick={handleEquals}>
+        <button data-key="=" className="equals" onClick={handleEquals}>
           =
         </button>
       </div>

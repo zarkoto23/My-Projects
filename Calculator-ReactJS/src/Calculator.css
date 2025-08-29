@@ -75,3 +75,8 @@ button.equals {
 button.equals:active {
   background: #1e8449;
 }
+
+.button-active {
+  transform: translateY(3px);
+  box-shadow: 0 2px #222;
+}
