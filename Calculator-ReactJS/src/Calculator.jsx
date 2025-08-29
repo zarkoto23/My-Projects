@@ -30,19 +30,7 @@ export default function Calculator() {
     [currentValue, previousValue, operator, justCalculated]
   );
 
-  const handleOperator = useCallback(
-    (op) => {
-      if (!currentValue) return;
-      const value = currentValue;
-      const newDisplay = currentValue + " " + op;
-      setPreviousValue(value);
-      setCurrentValue("");
-      setDisplay(newDisplay);
-      setOperator(op);
-      setJustCalculated(false);
-    },
-    [currentValue]
-  );
+ 
 
   const handleEquals = useCallback(() => {
     if (!currentValue || !previousValue || !operator) return;
@@ -74,6 +62,39 @@ export default function Calculator() {
     setOperator(null);
     setJustCalculated(true);
   }, [currentValue, previousValue, operator]);
+
+
+const handleOperator = useCallback(
+  (op) => {
+    if (!currentValue && !previousValue) return;
+
+    if (previousValue && operator && currentValue) {
+      const curr = Number(currentValue);
+      const prev = Number(previousValue);
+      let result;
+      switch (operator) {
+        case "+": result = prev + curr; break;
+        case "-": result = prev - curr; break;
+        case "*": result = prev * curr; break;
+        case "/": result = prev / curr; break;
+        default: return;
+      }
+      setPreviousValue(result.toString());
+      setDisplay(result.toString() + " " + op);
+      setCurrentValue("");
+    } else {
+      setPreviousValue(currentValue);
+      setCurrentValue("");
+      setDisplay(currentValue + " " + op);
+    }
+
+    setOperator(op);
+    setJustCalculated(false);
+  },
+  [currentValue, previousValue, operator]
+);
+
+
 
   const handleClear = useCallback(() => {
     setDisplay("");
