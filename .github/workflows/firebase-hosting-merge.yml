@@ -20,3 +20,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAMES_PLAY_476615 }}
           channelId: live
           projectId: games-play-476615
+          entryPoint: ./My-Projects
