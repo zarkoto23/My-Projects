@@ -19,4 +19,3 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAMES_PLAY_476615 }}
           projectId: games-play-476615
-          entryPoint: ./Game-Play-Study-Project
