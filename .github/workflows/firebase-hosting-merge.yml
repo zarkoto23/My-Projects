@@ -11,13 +11,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup
-        working-directory: ./My-Projects
-        run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: './Game-Play-Study-Project/package-lock.json'
+      
+      - name: Install dependencies
+        working-directory: ./Game-Play-Study-Project
+        run: npm ci
+      
+      - name: Build project
+        working-directory: ./Game-Play-Study-Project
+        run: npm run build
+      
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAMES_PLAY_476615 }}
           channelId: live
           projectId: games-play-476615
-          entryPoint: ./My-Projects
