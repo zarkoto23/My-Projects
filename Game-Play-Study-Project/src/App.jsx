@@ -14,8 +14,7 @@ import GuestGuard from "./components/guards/GuestGuard";
 
 // import Admin from "./components/admin/Admin";
 import { lazy, Suspense } from "react";
-const Admin = lazy(() => import('./components/admin/Admin'))
-
+const Admin = lazy(() => import("./components/admin/Admin"));
 
 function App() {
   return (
@@ -41,7 +40,14 @@ function App() {
 
             <Route path="/games/:gameId/details" element={<GameDetails />} />
 
-            <Route path="/admin" element={<Suspense fallback={<p>Loading...</p>}><Admin /></Suspense>} />
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={<p>Loading...</p>}>
+                  <Admin />
+                </Suspense>
+              }
+            />
           </Routes>
         </main>
       </div>
