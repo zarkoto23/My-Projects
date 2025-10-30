@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import useAuth from "../hooks/useAuth";
-const baseUrl = "http://localhost:3030/data/comments";  
+const baseUrl = `${import.meta.env.VITE_APP_SERVER_URL}/data/comments`
 
 function commentReducer(state, action) {
   switch (action.type) {

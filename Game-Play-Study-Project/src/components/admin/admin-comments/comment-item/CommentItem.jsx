@@ -11,7 +11,7 @@ class CommentItem extends Component {
     console.log("deleted");
 
     await this.props.auth.request.delete(
-      `http://localhost:3030/data/comments/${this.props._id}`,
+      `${import.meta.env.VITE_APP_SERVER_URL}/data/comments/${this.props._id}`,
       null,
       {
         headers: {
