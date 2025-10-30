@@ -13,7 +13,7 @@ export default function Header() {
       </h1>
       <nav>
         <Link to="/games">All games</Link>
-        <Link to="/admin">adminPanel</Link>
+        <Link to="/admin">Admin Panel</Link>
 
         {/* <!-- Logged-in users --> */}
         {isAuth ? (

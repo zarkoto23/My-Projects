@@ -12,8 +12,8 @@ export default class Admin extends Component {
       <UserContext.Consumer>
         {(context) => (
           <section style={{ color: "white" }}>
-            <h1 >Admin SectiDDDDon</h1>
-            <h2>Hello {context.email} </h2>
+            <h1 >Admin Section</h1>
+            <h2>Hello Admin {context.email} </h2>
             <AdminComments />
           </section>
         )}
