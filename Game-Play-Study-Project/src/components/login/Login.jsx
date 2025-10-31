@@ -3,9 +3,6 @@ import { Link, useNavigate } from "react-router";
 import { useLogin } from "../../api/authApi";
 import { UserContext } from "../../contexts/UserContext";
 
-
-import { Bounce, ToastContainer, toast } from "react-toastify";
-
 export default function Login() {
   const { userLoginHandler } = useContext(UserContext);
 
@@ -15,26 +12,12 @@ export default function Login() {
   const loginHandler = async (_, formData) => {
     const values = Object.fromEntries(formData);
 
-    try {
-      const authData = await login(values.email, values.password);
-
-      userLoginHandler(authData);
-      toast.success('Successfull login!', {type:"success"})
-
-      console.log('sucesss');
-      
-
-
-      nav(-1);
-    } catch (err) {
-      console.log('error');
-      
-      toast.error(err.message, {
-        type:"error"
-      });
-    }
+    const authData = await login(values.email, values.password);
 
     // const email = formData.get("email");
+    userLoginHandler(authData);
+
+    nav(-1);
   };
 
   const [_, loginAction, isPending] = useActionState(loginHandler, {
@@ -44,9 +27,6 @@ export default function Login() {
 
   return (
     <section id="login-page" className="auth">
-      <ToastContainer
-    
-      />
       <form id="login" action={loginAction}>
         <div className="container">
           <div className="brand-logo"></div>
