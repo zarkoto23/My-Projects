@@ -103,7 +103,6 @@
     text-align: center;
 }
 
-/* Контейнерът за бутоните */
 .buttons {
     display: flex;
     justify-content: flex-end;
@@ -113,7 +112,6 @@
     padding-bottom: 40px;
 }
 
-/* Общ стил за двата бутона */
 .button {
     display: inline-flex;
     align-items: center;
@@ -129,24 +127,21 @@
     border: none;
     outline: none;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    min-width: 110px; /* за еднаква ширина */
+    min-width: 110px;
     text-align: center;
 }
 
-/* Ховър ефект */
 .button:hover {
     background-color: #6f5d9c;
     transform: scale(1.03);
 }
 
-/* Премахваме дефолтни стилове на <button> */
 button.button {
     appearance: none;
     -webkit-appearance: none;
     background: #54557b;
 }
 
-/* Премахваме underline на линкове */
 a.button {
     text-decoration: none;
 }
