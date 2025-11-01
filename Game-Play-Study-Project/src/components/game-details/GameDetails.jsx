@@ -8,6 +8,7 @@ import { useComments, useCreate } from "../../api/commentsApi";
 import { v4 } from "uuid";
 
 import { useOptimistic } from "react";
+import { toast } from "react-toastify";
 
 export default function GameDetails() {
   const { email, _id, isAuth } = useAuth();
@@ -48,14 +49,14 @@ export default function GameDetails() {
     const comment = formData.get("comment");
 
     if (!isAuth) {
-      alert("You have to looged in!");
+      toast.info("You have to be logged user to comment!");
       nav("/login");
 
       return;
     }
 
     if (!comment.trim()) {
-      return alert("You have to write something!");
+      return toast.info("You have to write something!");
     }
     setOptimisticComments(comment);
 
