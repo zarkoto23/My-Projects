@@ -1,6 +1,7 @@
 import { useRegister } from "../../api/authApi";
 import { useNavigate } from "react-router";
 import { useUserContext } from "../../contexts/UserContext";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const { register } = useRegister();
@@ -13,7 +14,7 @@ export default function Register() {
     const rePass = formData.get("confirm-password");
 
     if (password !== rePass) {
-      alert("Paswords missmatch!");
+      toast.error("Paswords missmatch!");
       return;
     }
 
