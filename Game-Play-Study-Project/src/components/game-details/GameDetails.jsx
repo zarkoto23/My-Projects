@@ -43,7 +43,7 @@ export default function GameDetails() {
       
       await deleteGame(gameId);
   
-      toast.success(`${game} is deleted!`)
+      toast.success(`${game.title} is deleted!`)
       nav("/games");
     } catch (err) {
         toast.error(err.message|| 'Deleted unsuccessfull!')
