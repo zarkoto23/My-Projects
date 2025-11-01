@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import useAuth from "../hooks/useAuth";
-const baseUrl = `${import.meta.env.VITE_APP_SERVER_URL}/data/comments`
+const baseUrl = `${import.meta.env.VITE_APP_SERVER_URL}/data/comments`;
 
 function commentReducer(state, action) {
   switch (action.type) {
@@ -30,7 +30,7 @@ export const useComments = (gameId) => {
     request
       .get(`${baseUrl}?${searchParams.toString()}`)
       .then((result) => dispatch({ type: "GET_ALL", payload: result }));
-  }, [gameId,request]);
+  }, [gameId, request]);
 
   return {
     comments,

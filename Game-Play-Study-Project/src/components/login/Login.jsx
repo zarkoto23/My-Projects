@@ -2,6 +2,7 @@ import { useActionState, useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { useLogin } from "../../api/authApi";
 import { UserContext } from "../../contexts/UserContext";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const { userLoginHandler } = useContext(UserContext);
@@ -12,12 +13,18 @@ export default function Login() {
   const loginHandler = async (_, formData) => {
     const values = Object.fromEntries(formData);
 
-    const authData = await login(values.email, values.password);
+    try {
+      const authData = await login(values.email, values.password);
 
-    // const email = formData.get("email");
-    userLoginHandler(authData);
+      // const email = formData.get("email");
+      userLoginHandler(authData);
 
-    nav(-1);
+      toast.success("Successfull Login!");
+
+      nav(-1);
+    } catch (err) {
+      toast.error(err.message || "Failed to fetch!");
+    }
   };
 
   const [_, loginAction, isPending] = useActionState(loginHandler, {

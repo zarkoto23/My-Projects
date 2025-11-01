@@ -12,9 +12,9 @@ import UserProvider from "./providers/UserProvider";
 import AuthGuard from "./components/guards/AuthGuard";
 import GuestGuard from "./components/guards/GuestGuard";
 
-
 // import Admin from "./components/admin/Admin";
 import { lazy, Suspense } from "react";
+import { Bounce, ToastContainer } from "react-toastify";
 const Admin = lazy(() => import("./components/admin/Admin"));
 
 function App() {
@@ -51,6 +51,15 @@ function App() {
             />
           </Routes>
         </main>
+        <ToastContainer
+          position="top-center"
+          autoClose={1500}
+          hideProgressBar
+          closeButton={false}
+          transition={Bounce}
+          theme="colored"
+          pauseOnFocusLoss={true}
+        />
       </div>
     </UserProvider>
   );
