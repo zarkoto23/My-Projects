@@ -39,10 +39,15 @@ export default function GameDetails() {
     if (!hasConfirm) {
       return;
     }
-
-    await deleteGame(gameId);
-
-    nav("/games");
+    try {
+      
+      await deleteGame(gameId);
+  
+      toast.success(`${game} is deleted!`)
+      nav("/games");
+    } catch (err) {
+        toast.error(err.message|| 'Deleted unsuccessfull!')
+    }
   };
 
   const commentCreateHandler = async (formData) => {
