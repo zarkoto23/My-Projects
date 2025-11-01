@@ -5,29 +5,41 @@ import { toast } from "react-toastify";
 
 export default function Register() {
   const { register } = useRegister();
-  const { userLoginHandler } = useUserContext()
+  const { userLoginHandler } = useUserContext();
   const navigate = useNavigate();
 
-  const registerHandler = async (formData) => {
-    const { email, password } = Object.fromEntries(formData);
+  const registerHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
 
-    const rePass = formData.get("confirm-password");
+    const data = Object.fromEntries(formData);
+
+    const email = data.email;
+    const password = data.password;
+    const rePass = data["confirm-password"];
 
     if (password !== rePass) {
-      toast.error("Paswords missmatch!");
+      toast.error("Passwords not match!");
+      e.currentTarget.elements["password"].value = "";
+      e.currentTarget.elements["confirm-password"].value = "";
       return;
     }
+    try {
+      const authData = await register(email, password);
 
-    const authData = await register(email, password);
+      userLoginHandler(authData);
 
-    userLoginHandler(authData);
+      toast.success("You are registered!");
 
-    navigate("/");
+      navigate("/");
+    } catch (err) {
+      toast.error(err.message || "Registration failed!");
+    }
   };
 
   return (
     <section id="register-page" className="content auth">
-      <form id="register" action={registerHandler}>
+      <form id="register" onSubmit={registerHandler}>
         <div className="container">
           <div className="brand-logo"></div>
           <h1>Register</h1>
