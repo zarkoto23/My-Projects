@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "Game-Play-Study-Project/dist",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
